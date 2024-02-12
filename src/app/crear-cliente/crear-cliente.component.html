@@ -1,0 +1,50 @@
+
+
+<div class="container " >
+  <h1 class=" text-center">Alta Cliente</h1>
+    <form [formGroup]="formularioCliente" (ngSubmit)="enviar()">
+        <div class="mb-3">
+            <label for="razonSocial" class="form-label">Razon Social</label>
+            <input [ngClass]="{'is-invalid':hasErrors('razonSocial', 'required') || hasErrors('razonSocial', 'minlength')}" type="text" class="form-control" id="razonSocial" name="razonSocial" formControlName="razonSocial">
+            <div class="text-danger" *ngIf="hasErrors('razonSocial', 'required')">Razon Social Requerido</div>
+            <div class="text-danger" *ngIf="hasErrors('razonSocial', 'minlength')">minimo de caracteres 6</div>
+          </div>
+        <div class="mb-3">
+          <label for="cuit" class="form-label">Cuit</label>
+          <input [ngClass]="{'is-invalid':hasErrors('cuit', 'required')}" type="text" class="form-control" id="cuit" name="cuit" formControlName="cuit">
+          <div class="text-danger" *ngIf="hasErrors('cuit', 'required')">Cuit Requerido</div>
+          </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Direccion</label>
+            <input [ngClass]="{'is-invalid':hasErrors('direccion', 'required')}" type="text" class="form-control" id="direccion" name="direccion"  formControlName="direccion">
+            <div class="text-danger" *ngIf="hasErrors('direccion', 'required')">Direccion Requerida</div>
+              </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input [ngClass]="{'is-invalid':hasErrors('email', 'required')|| hasErrors('email', 'email')}" type="email" class="form-control" id="correo" name="email"   formControlName="email">
+            <div class="text-danger" *ngIf="hasErrors('email', 'email')">formato invalido</div>
+            <div class="text-danger" *ngIf="hasErrors('email', 'required')">email requerido</div>
+            </div>
+        
+            <label>Servicios Contratados:</label>
+            <div >
+              <div *ngFor="let servicio of servicios">
+                <label>
+                  <input  type="checkbox"  (change)="onServicioSeleccionado($event, servicio)"> {{ servicio.nombreServicio }}
+
+                </label>
+              </div>
+
+            </div>
+           
+              
+            
+             
+
+             
+       
+        <button type="submit" class="btn btn-primary">Crear Cliente</button>
+      </form>
+
+</div>
+

@@ -1,0 +1,37 @@
+
+<h1 class="text-center">Detalle Cliente</h1>
+<div class="container " style="margin: 30px">
+    <form #myForm="ngForm">
+        <div class="mb-3">
+            <label for="razonSocial" class="form-label">Razon Social</label>
+            <input type="text" class="form-control" id="razonSocial" name="razonSocial" [(ngModel)] ="cliente.razonSocial">
+          
+          </div>
+        <div class="mb-3">
+          <label for="cuit" class="form-label">Cuit</label>
+          <input type="text" class="form-control" id="cuit" name="cuit"[(ngModel)] ="cliente.cuit">
+          </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Direccion</label>
+            <input type="text" class="form-control" id="direccion" name="direccion"  [(ngModel)] ="cliente.domicilio">
+              </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="correo" name="email"   [(ngModel)] ="cliente.email">
+            </div>
+        
+               <div class="mb-3">
+                <label for="disabledSelect" class="form-label">Servicios</label>
+                <select id="disabledSelect" class="form-select" class="form-control">
+                  <option *ngFor="let servicios of servicios">{{servicios.servicioId}} - {{servicios.nombreServicio}}</option>
+                </select>
+              </div>
+             
+
+             
+       
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+</div>
+

@@ -16,7 +16,7 @@
           </div>
         <div class="mb-3">
             <label for="direccion" class="form-label">Direccion</label>
-            <input [ngClass]="{'is-invalid':hasErrors('direccion', 'required')}" type="text" class="form-control" id="direccion" name="direccion"  formControlName="direccion">
+            <input [ngClass]="{'is-invalid':hasErrors('direccion', 'required')}" type="text" class="form-control" id="direccion" name="direccion"  formControlName="domicilio">
             <div class="text-danger" *ngIf="hasErrors('direccion', 'required')">Direccion Requerida</div>
               </div>
         <div class="mb-3">
@@ -30,12 +30,14 @@
             <div >
               <div *ngFor="let servicio of servicios">
                 <label>
-                  <input  type="checkbox"  (change)="onServicioSeleccionado($event, servicio)"> {{ servicio.nombreServicio }}
+                  <input  type="checkbox"    (change)="onServicioSeleccionado($event, servicio)"> {{ servicio.nombreServicio }}
 
                 </label>
               </div>
 
             </div>
+           
+            
            
               
             
@@ -43,7 +45,7 @@
 
              
        
-        <button type="submit" class="btn btn-primary">Crear Cliente</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!formularioCliente.valid">Crear Cliente</button>
       </form>
 
 </div>

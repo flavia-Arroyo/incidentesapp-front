@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Servicios } from '../servicios';
 import { ServiciosService } from '../servicios.service';
+import { ClientesService } from '../clientes.service';
+import { Router } from '@angular/router';
+import { Clientes } from '../clientes';
 
 @Component({
   selector: 'app-crear-cliente',
@@ -12,14 +15,18 @@ export class CrearClienteComponent  implements OnInit{
   //cliente: Clientes = new Clientes();
   formularioCliente :FormGroup
   servicios:Servicios[];
+ 
 
-   constructor(private servicio:ServiciosService,private form:FormBuilder){
+   constructor(private clienteServicio:ClientesService,
+    private servicio:ServiciosService,
+    private form:FormBuilder,
+     private enrutador:Router){
         this.formularioCliente = this.form.group({
       razonSocial :['', [Validators.required, Validators.minLength(6)]],
       cuit :['', Validators.required],
-      direccion:['', Validators.required],
+      domicilio:['', Validators.required],
       email:['', [Validators.required, Validators.email]],
-      serviciosSeleccionados:this.form.array([])
+      listaServicios:this.form.array([])
 
     });
   }
@@ -27,50 +34,67 @@ export class CrearClienteComponent  implements OnInit{
     this.obtenerServicios();
     }
 
-    
-  private obtenerServicios(){
-    this.servicio.obtenerServicios().subscribe(
-      datos=>{
-        this.servicios = datos;
-    
-        console.log(datos)
-      }
-    )
-  }
+    private obtenerServicios(){
+      this.servicio.obtenerServicios().subscribe(
+        datos=>{
+          this.servicios = datos;
+      
+          console.log(datos)
+        }
+      )
+    }
 
+    
   hasErrors(controlName:string, errorType:string){
     return this.formularioCliente.get(controlName)?.hasError(errorType)&& this.formularioCliente.get(controlName)?.touched
   }
-  get serviciosSeleccionados(): FormArray {
-    return this.formularioCliente.get('serviciosSeleccionados') as FormArray;
+  get listaServicios(): FormArray {
+    return this.formularioCliente.get('listaServicios') as FormArray;
   }
   
   
-  onServicioSeleccionado(event:any, servicio:any) {
+  onServicioSeleccionado(event:any, servicio:Servicios) {
+  
     if (event.target.checked) {
-      console.log("entro a la validacion")
-      this.serviciosSeleccionados.push(this.form.group({
-        id: servicio.id,
-        nombre: servicio.nombre
+      console.log('Seleccionado:', servicio.nombreServicio);
+    
+      this.listaServicios.push(this.form.group({
+        servicioId :servicio.servicioId,
+         nombreServicio : servicio.nombreServicio
         
       }));
+
+      console.log("servicios seleccionados   " + this.listaServicios)
     } else {
-      const index = this.serviciosSeleccionados.controls.findIndex(x => x.value.id === servicio.id);
-      this.serviciosSeleccionados.removeAt(index);
+      const index = this.listaServicios.controls.findIndex(x => x.value.id === servicio.servicioId);
+      this.listaServicios.removeAt(index);
     }
   }
  
-  enviar(){
-    console.log(this.formularioCliente)
+
+    enviar(){
     
-   /* const serviciosSeleccionados = Object.keys(this.servicioSeleccionados).filter(id =>
-      this.servicioSeleccionados[id]).map(Number);
-    
-   this.clienteService.crearCliente(this.nombreCliente, serviciosSeleccionados).subscribe(
-      () => {
-        console.log('Cliente creado exitosamente');
+      if(this.formularioCliente.valid){
+      
+        this.clienteServicio.agregarCliente(this.formularioCliente.value
+          ).subscribe(()=>{
+
+              this.enrutador.navigate(['clientes']);
+        });
         
-      }*/
+      }
+      
+      console.log(this.formularioCliente.value)
+
+  
+    
+    
+    
+  
+ 
+     
+    
+  
 
   }
 

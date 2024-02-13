@@ -20,6 +20,7 @@ export class ClientesService {
     return this.clienteHttp.get<Clientes>(`${this.urlBase}/${id}`)
   }
   agregarCliente(cliente:Clientes):Observable<object>{
+    console.log("recibe para mandar: " + cliente.email + cliente.razonSocial + cliente.listaServicios + cliente.domicilio + cliente.clienteId)
     return this.clienteHttp.post(this.urlBase, cliente);
 
   }
